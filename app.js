@@ -1,54 +1,52 @@
-let products = [];
-let cart = [];
+let products=[];
+let selected=null;
 
-fetch("products.json")
-.then(res => res.json())
-.then(data => {
-  products = data;
-  displayProducts(products);
+fetch('./products.json')
+.then(r=>r.json())
+.then(data=>{
+products=data;
+display(products);
 });
 
-function displayProducts(list){
-  let container = document.getElementById("products");
-  container.innerHTML = "";
-
-  list.forEach(p => {
-    container.innerHTML += `
-      <div class="card">
-        <img src="${p.image}" width="100%">
-        <h3>${p.name}</h3>
-        <p>${p.price} EGP</p>
-        <button onclick="addToCart(${p.id})">أضف للسلة</button>
-      </div>
-    `;
-  });
-}
-
-function addToCart(id){
-  let product = products.find(p => p.id === id);
-  cart.push(product);
-  renderCart();
-}
-
-function renderCart(){
-  let cartDiv = document.getElementById("cart");
-  cartDiv.innerHTML = "<h2>السلة</h2>";
-
-  cart.forEach(item => {
-    cartDiv.innerHTML += `<p>${item.name} - ${item.price}</p>`;
-  });
+function display(list){
+let box=document.getElementById('products');
+box.innerHTML='';
+list.forEach(p=>{
+box.innerHTML+=`
+<div class="card">
+<img src="${p.image}" width="100%">
+<h3>${p.name}</h3>
+<p>${p.price} EGP</p>
+<button onclick="order(${p.id})">اطلب الآن</button>
+</div>`;
+});
 }
 
 function search(){
-  let val = document.getElementById("search").value.toLowerCase();
-  let filtered = products.filter(p => p.name.toLowerCase().includes(val));
-  displayProducts(filtered);
+let v=document.getElementById('search').value.toLowerCase();
+display(products.filter(p=>p.name.toLowerCase().includes(v)));
 }
 
-function filter(){
-  let val = document.getElementById("filter").value;
-  if(val === "all") return displayProducts(products);
+function order(id){
+selected=products.find(p=>p.id===id);
+document.getElementById('productName').innerText=selected.name;
+document.getElementById('popup').style.display='block';
+}
 
-  let filtered = products.filter(p => p.category === val);
-  displayProducts(filtered);
+function closePopup(){
+document.getElementById('popup').style.display='none';
+}
+
+function sendOrder(){
+let name=document.getElementById('name').value;
+let phone=document.getElementById('phone').value;
+let address=document.getElementById('address').value;
+
+let msg=`طلب جديد:
+${selected.name}
+الاسم: ${name}
+الموبايل: ${phone}
+العنوان: ${address}`;
+
+window.open(`https://wa.me/201000000000?text=${encodeURIComponent(msg)}`);
 }
