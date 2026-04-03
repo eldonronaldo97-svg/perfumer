@@ -2,6 +2,7 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>El Wardany Scents</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -9,19 +10,28 @@
 
 <header>
   <h2>EL WARDANY</h2>
-  <input id="search" onkeyup="search()" placeholder="ابحث عن عطر">
-  <select id="filter" onchange="filter()">
-    <option value="all">الكل</option>
-    <option value="رجالي">رجالي</option>
-    <option value="حريمي">حريمي</option>
-  </select>
 </header>
+
+<section class="hero">
+  <h1>عطور إماراتية أصلية</h1>
+  <p>الدفع عند الاستلام - شحن لكل المحافظات</p>
+</section>
+
+<input id="search" placeholder="ابحث عن عطر..." onkeyup="search()">
 
 <div class="products" id="products"></div>
 
-<div class="cart" id="cart"></div>
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h3 id="productName"></h3>
+    <input id="name" placeholder="الاسم">
+    <input id="phone" placeholder="رقم الموبايل">
+    <input id="address" placeholder="العنوان">
+    <button onclick="sendOrder()">تأكيد الطلب</button>
+    <span onclick="closePopup()">✖</span>
+  </div>
+</div>
 
 <script src="app.js"></script>
-
 </body>
 </html>
